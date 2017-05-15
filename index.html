@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DeltaApp</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+        
+        #map {
+            height: 100%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="modal fade" id="fire-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="modal-text"></div>
+            </div> 
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-ok" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="map"></div>
+    <script>
+
+    function alertModal(title, body) {
+  // Display error message to the user in a modal
+  $('#alert-modal-title').html(title);
+  $('#alert-modal-body').html(body);
+  $('#alert-modal').modal('show');
+}
+        var map;
+
+        function initMap() {
+            var myLatLng = {
+                lat: 41.992233,
+                lng: 20.926561
+            };
+
+            // var myLatLng={ 
+            //     lat: 41.222787, 
+            //     lng: 21.12319
+            //     };
+var latitudes = [42.01172, 41.96016, 41.96016, 41.97242, 41.99109, 42.04742, 42.01379, 42.06156, 41.98763, 42.01506, 41.90395, 41.97395, 41.89575, 41.82428, 41.78949, 41.71749, 41.74003, 41.75741, 41.77667, 41.84163, 41.73706, 41.69712, 41.63881, 41.62508, 41.55649, 41.61053, 41.68632, 41.73744, 41.78062, 41.72633, 41.68277, 41.62766, 41.48381, 41.49197, 41.47038, 41.39236, 41.33479, 41.3264, 41.25943, 41.20836, 41.17556, 42.17935, 42.12726, 42.08084, 42.02755, 41.96728, 41.93413, 41.85859, 41.77862, 41.69562, 41.62664, 41.75168, 41.73479, 41.67538, 41.62479, 41.57331, 41.50626, 41.49398, 41.54486, 41.50087, 41.48156, 41.43727, 41.4281, 41.35982, 41.24111, 41.29845, 41.16003, 41.21054, 41.18431, 41.25181, 41.1384, 41.06992, 41.00462, 40.89612, 40.96443, 41.02689, 41.14756, 41.26338, 41.38583, 41.53522, 41.15514, 41.20939, 41.2578, 41.32885, 41.65223, 41.7426, 41.78598, 41.76659, 41.44769, 41.64594, 41.37441]
+
+
+var longitudes = [21.8897, 21.96801, 22.0743, 22.18484, 22.30451, 22.3297, 22.40117, 22.47129, 22.79188, 22.79188, 22.73502, 22.86135, 22.84127, 22.82347, 22.93233, 22.98678, 22.8919, 22.80981, 22.71872, 22.69421, 22.65375, 22.73959, 22.67096, 22.79492, 22.86926, 22.61044, 22.56504, 22.47914, 22.54244, 22.35249, 22.43851, 22.52454, 22.33811, 22.43571, 22.54179, 22.54048, 22.51354, 22.3876, 22.30804, 22.23521, 22.14008, 21.1388, 21.05333, 20.97425, 20.87894, 20.83446, 20.79978, 20.76643, 20.74773, 20.71636, 20.74758, 20.65852, 20.54321, 20.62039, 20.55327, 20.65449, 20.59636, 20.49057, 20.7209, 20.81963, 20.70352, 20.81205, 20.55708, 20.63638, 20.53609, 20.72025, 20.58617, 20.66482, 20.76497, 20.76497, 20.91607, 20.90472, 20.92019, 21.23393, 21.21616, 21.16578, 21.08844, 21.018, 21.0788, 21.14253, 22.03333, 21.94323, 22.04547, 21.96312, 21.54238, 21.52464, 21.47574, 21.38219, 21.18973, 21.08427, 21.20886]
+
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {
+                    lat: 41.5638,
+                    lng: 21.6622248
+                },
+                zoom: 9
+            });
+            for (var i = 0; i< latitudes.length; i++){
+                var myLatLng={ 
+                lat: latitudes[i], 
+                lng: longitudes[i]
+                };
+                var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: 'Marker #' + i
+            });
+            marker.addListener('click', function() {
+$(".modal-text").text("The fire is at the " + $(this)[0].title);
+                var test = $(this)[0].title;
+                $('#fire-modal').modal('show');
+            });
+            }
+            // var marker = new google.maps.Marker({
+            //     position: myLatLng,
+            //     map: map,
+            //     title: 'Hello World!'
+            // });
+            
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAogh0C7r28fSG2KKli_yUjpjRs3JWwELw&callback=initMap" async defer></script>
+</body>
+
+</html>
